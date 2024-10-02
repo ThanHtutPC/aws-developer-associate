@@ -44,3 +44,24 @@ docker run -d \
 
 curl http://localhost:8000 
 ```
+
+## run with dockerfile 
+
+```md
+docker run -d \
+    --name db \
+    -port 5432:5432 \ 
+    -e POSTGRES_DB=mydb \
+    -e POSTGRES_USER=myuser \
+    -e POSTGRES_PASSWORD=mypassword \
+    postgres
+docker build . -t my-app:v1.0
+docker run -it -d -p 8000:8000 my-app:v.1.0
+curl http://localhost:8000
+```
+
+# Important for ECS
+
+```md 
+need to change `db` host that your public ip in the `app.py`.
+```  
