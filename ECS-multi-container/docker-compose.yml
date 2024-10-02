@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: my-postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    image: python:3.9-slim
+    container_name: my-python-app
+    depends_on:
+      - db
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    command: >
+      bash -c "pip install --upgrade pip &&
+               pip install psycopg2-binary flask &&
+               python app.py"
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: db
+      DB_NAME: mydb
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+
+volumes:
+  db_data:
