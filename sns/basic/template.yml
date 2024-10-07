@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  # Create the SNS Topic
+  MySNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: MyLambdaSNSTopic
+  
+  # Create the IAM Role for Lambda
+  MyLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      RoleName: MyLambdaExecutionRole
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies: 
+        - PolicyName: MyLambdaExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action: "sns:Publish"
+                Resource: "*"
+  
+  # Create the Lambda Function
+  MyLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: MySNSTriggerLambda
+      Handler: index.handler
+      Role: !GetAtt MyLambdaExecutionRole.Arn
+      Runtime: python3.9
+      Code:
+        ZipFile: |
+          import json
+          import logging
+          
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+          
+          def handler(event, context):
+              logger.info("Event: " + json.dumps(event))
+              for record in event['Records']:
+                  sns_message = record['Sns']['Message']
+                  logger.info(f"Received message: {sns_message}")
+                  # Do something with the message
+              return {
+                  'statusCode': 200,
+                  'body': json.dumps('Message processed successfully')
+              }
+
+  # Create SNS Subscription for Lambda
+  MySNSTopicSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      TopicArn: !Ref MySNSTopic
+      Protocol: lambda
+      Endpoint: !GetAtt MyLambdaFunction.Arn
+  
+  # Grant SNS permission to invoke the Lambda function
+  LambdaInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref MyLambdaFunction
+      Principal: sns.amazonaws.com
+      SourceArn: !Ref MySNSTopic
