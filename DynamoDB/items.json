@@ -1,0 +1,49 @@
+{
+    "my-table": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "1"},
+                    "name": {"S": "Alice"},
+                    "age": {"N": "28"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "2"},
+                    "name": {"S": "Bob"},
+                    "age": {"N": "35"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "3"},
+                    "name": {"S": "Charlie"},
+                    "age": {"N": "22"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "4"},
+                    "name": {"S": "Diana"},
+                    "age": {"N": "30"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "5"},
+                    "name": {"S": "Eve"},
+                    "age": {"N": "27"}
+                }
+            }
+        }
+    ]
+}
