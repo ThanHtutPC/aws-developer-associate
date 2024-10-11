@@ -1,0 +1,26 @@
+---
+
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "create the s3 "
+
+Parameters:
+  BucketName: 
+    Description: create the s3 
+    Type: String
+    Default: example-cfn-13337
+
+Resources:
+  Bucket: 
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: 
+        !Ref BucketName
+      Tags:
+        - Key : "Hello"
+          Value : "world"
+  MyEC2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-0fff1b9a61dec8a5f"
+      InstanceType: "t3.micro"
