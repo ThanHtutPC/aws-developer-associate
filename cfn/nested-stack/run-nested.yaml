@@ -1,0 +1,8 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html
+  MyFirstNestedStack:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      TemplateURL: "https://nested-statck-13337.s3.amazonaws.com/create-s3.yaml"
