@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Basic cfn yaml"
+
+Parameters:
+  mybucket:
+    Type: String  
+    Description: "Create the S3"
+    Default: "example-cfn-ln2020"
+
+Resources:
+  ExampleCFN:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref mybucket
