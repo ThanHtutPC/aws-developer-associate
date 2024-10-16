@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        nav { margin-top: 20px; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <!-- Home Page Content -->
+        <div id="home">
+            <h1>Home Page</h1>
+            <p>Welcome to the Home Page!</p>
+            <img src="http://hostweb-testing-for-s3.s3.ap-southeast-1.amazonaws.com/images/home-banner.jpg" alt="Home Banner">
+        </div>
+
+        <div id="about" style="display:none;">
+            <h1>About Page</h1>
+            <p>This is the About Page. Learn more about us here!</p>
+            <img src="http://hostweb-testing-for-s3.s3.ap-southeast-1.amazonaws.com/images/about-image.jpg" alt="About Us Image">
+        </div>
+
+        <div id="contentPage" style="display:none;">
+            <h1>Content Page</h1>
+            <p>Here is some awesome content!</p>
+            <img src="http://hostweb-testing-for-s3.s3.ap-southeast-1.amazonaws.com/images/content-image.jpg" alt="Content Image">
+        </div>
+    </div>
+
+    <nav>
+        <a href="#" onclick="showPage('home')">Home</a> | 
+        <a href="#" onclick="showPage('about')">About</a> | 
+        <a href="#" onclick="showPage('contentPage')">Content</a>
+        <a href="https://uvply3u11h.execute-api.ap-southeast-1.amazonaws.com/prod/about"?>About</a>
+        <a href="https://uvply3u11h.execute-api.ap-southeast-1.amazonaws.com/prod/content"?>Content</a>
+    </nav>
+
+    <script>
+    function showPage(page) {
+        document.getElementById('home').style.display = 'none';
+        document.getElementById('about').style.display = 'none';
+        document.getElementById('contentPage').style.display = 'none';
+
+        document.getElementById(page).style.display = 'block';
+    }
+
+    // Get the page from the Flask variable and show it
+    const page = "{{ page }}";  // This comes from Flask
+    showPage(page);
+    </script>
+
+
+</body>
+</html>
